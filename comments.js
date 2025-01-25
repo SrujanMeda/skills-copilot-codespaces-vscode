@@ -25,5 +25,3 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     res.send('DELETE /comments/:id');
 });
-
-module.exports
