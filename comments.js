@@ -1,27 +1,9 @@
 // create web server
-// http://localhost:3000/comments
-// http://localhost:3000/comments/:id
-
-const express = require('express');
-const router = express.Router();
-
-// test
-router.get('/', (req, res) => {
-    res.send('GET /comments');
-});
-
-router.post('/', (req, res) => {
-    res.send('POST /comments');
-});
-
-router.get('/:id', (req, res) => {
-    res.send('GET /comments/:id');
-});
-
-router.put('/:id', (req, res) => {
-    res.send('PUT /comments/:id');
-});
-
-router.delete('/:id', (req, res) => {
-    res.send('DELETE /comments/:id');
-});
+// http.createServer(function(req,res){
+//     // set the response http header with status code 200
+//     // and content type as text/plain
+//     res.writeHead(200,{'Content-Type':'text/plain'});
+//     // send the response body "Hello World"
+//     res.end('Hello World\n');
+// }).listen(3000);
+// console.log('Server running at http://localhost:3000/');
