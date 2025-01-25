@@ -1,16 +1,45 @@
-// create web server
-const http = require('http');
-// http.createServer(function(req,res){
-//     // set the response http header with status code 200
-//     // and content type as text/plain
-//     res.writeHead(200,{'Content-Type':'text/plain'});
-//     // send the response body "Hello World"
-//     res.end('Hello World\n');
-// }).listen(3000);
-// console.log('Server running at http://localhost:3000/');
-http.createServer(function(req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('Hello World\n');
-}).listen(3000);
+// Create web server
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const path = require('path');
+const commentsPath = path.join(__dirname, 'comments.json');
 
-console.log('Server running at http://localhost:3000/');
+// Middleware for parsing request body
+app.use(bodyParser.json());
+
+// GET request to get all comments
+app.get('/comments', (req, res) => {
+  fs.readFile(commentsPath, (err, data) => {
+    if (err) {
+      res.status(500).send('Error reading comments.json');
+    } else {
+      res.json(JSON.parse(data));
+    }
+  });
+});
+
+// POST request to add a comment
+app.post('/comments', (req, res) => {
+  fs.readFile(commentsPath, (err, data) => {
+    if (err) {
+      res.status(500).send('Error reading comments.json');
+    } else {
+      const comments = JSON.parse(data);
+      comments.push(req.body);
+      fs.writeFile(commentsPath, JSON.stringify(comments, null, 2), (err) => {
+        if (err) {
+          res.status(500).send('Error writing comments.json');
+        } else {
+          res.status(201).send('Comment added');
+        }
+      });
+    }
+  });
+});
+
+// Start server
+app.listen(3000, () => {
+  console.log('Server listening on port 3000');
+});
